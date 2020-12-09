@@ -1,0 +1,1 @@
+INSERT INTO `oauth_client_details` VALUES ('yzkx','auth-server,user-service,mq-service,oauth2-resource','$2a$10$Ydk/ujzpUbpx5yDt/lZElukWCoxxAiMVfU7icqfSM8ypEM9sj1FXm','read,write','client_credentials,refresh_token,password,authorization_code',NULL,'ROLE_CLIENT',3600,NULL,NULL,NULL);

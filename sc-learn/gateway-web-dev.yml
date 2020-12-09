@@ -1,0 +1,52 @@
+server:
+  port: 18080
+
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: auth-server
+        uri: lb://auth-server
+        predicates:
+        - Path=/ua/**
+        filters:
+        - StripPrefix=1
+        - name: Hystrix
+          args:
+            name: mainFallback
+            fallbackUri: forward:/gateway/fallback
+      - id: mq-service
+        uri: lb://mq-service
+        predicates:
+        - Path=/ms/**
+        filters:
+        - StripPrefix=1
+        - name: Hystrix
+          args:
+            name: mainFallback
+            fallbackUri: forward:/gateway/fallback
+      - id: user-service
+        uri: lb://user-service
+        predicates:
+        - Path=/us/**
+        filters:
+        - StripPrefix=1
+        - name: Hystrix
+          args:
+            name: mainFallback
+            fallbackUri: forward:/gateway/fallback
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            # 全局熔断器5s超时
+            timeoutInMilliseconds: 5000
+    # da 服务 熔断超时
+    mainFallback:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 20000

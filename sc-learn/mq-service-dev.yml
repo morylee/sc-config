@@ -1,0 +1,37 @@
+server:
+  port: 12020
+
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    virtualHost: ****
+    username: ****
+    password: ****
+
+security:
+  oauth2:
+    resource:
+      id: mq-service
+      user-info-uri: http://localhost:18080/ua/oauth/user
+      prefer-token-info: false
+
+feign:
+  hystrix:
+    enabled: true
+
+ribbon:
+  ReadTimeout: 10000
+  ConnectTimeout: 5000
+  MaxAutoRetries: 1
+hystrix:
+  command:
+    default:
+      fallback:
+        enabled: true
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000

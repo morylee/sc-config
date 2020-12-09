@@ -1,0 +1,86 @@
+server:
+  port: 12030
+
+spring:
+  datasource:
+    name: user-service
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/main_db?serverTimezone=GMT%2B8&characterEncoding=UTF-8&noAccessToProcedureBodies=true
+    username: ****
+    password: ****
+    # 使用druid数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      # 连接池最大使用连接数
+      max-active: 20
+      # 初始化连接大小
+      initial-size: 1
+      # 获取连接最大等待时间
+      max-wait: 60000
+      # 连接池最小空闲
+      min-idle: 3
+      # 自动清除无用连接
+      remove-abandoned: true
+      # 清除无用连接的等待时间
+      remove-abandoned-timeout: 180
+      # 连接属性
+      connection-properties: clientEncoding=UTF-8
+
+# mybatis配置
+mybatis:
+  type-aliases-package: com.mm.user.model
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    database-id: user-service
+    # 开启字段名和属性名驼峰匹配
+    map-underscore-to-camel-case: true
+    # 全局启用或禁用延迟加载。当禁用时，所有关联对象都会即时加载
+    lazy-loading-enabled: true
+    # 当启用时，有延迟加载属性的对象在被调用时将会完全加载任意属性。否则，每种属性将会按需要加载
+    aggressive-lazy-loading: true
+
+security:
+  oauth2:
+    resource:
+      id: user-service
+      user-info-uri: http://localhost:18080/ua/oauth/user
+      prefer-token-info: false
+      permit-reqs: /user/login
+    client:
+      id: user-service
+      client-id: ****
+      client-secret: ****
+      access-token-uri: http://localhost:18080/ua/oauth/token
+      user-authorization-uri: http://localhost:18080/ua/oauth/authorize
+      grant-type: client_credentials
+
+feign:
+  hystirx:
+    enable: true
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+
+ribbon:
+  ReadTimeout: 10000
+  ConnectTimeout: 5000
+  MaxAutoRetries: 1
+hystrix:
+  command:
+    default:
+      fallback:
+        enabled: true
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          thread:
+            timeoutInMilliseconds: 60000
+
+# 日志
+logging:
+  level:
+    com.mm.user.service.dao: DEBUG
