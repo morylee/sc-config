@@ -1,6 +1,3 @@
-server:
-  port: 12020
-
 spring:
   rabbitmq:
     host: localhost

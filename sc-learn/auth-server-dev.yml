@@ -1,6 +1,3 @@
-server:
-  port: 12010
-
 spring:
   datasource:
     name: auth-server
