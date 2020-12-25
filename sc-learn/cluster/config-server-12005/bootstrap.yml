@@ -1,0 +1,23 @@
+server:
+  port: 12005
+
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: native
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: file:///D:/out_project/sc-config/sc-learn
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://root:root@www.eureka-12000.com:12000/eureka/,http://root:root@www.eureka-12001.com:12001/eureka/
+  instance:
+    instance-id: server-config:12005
+    prefer-ip-address: true # 优先注册IP地址而不是hostname
+  healthcheck:
+    enabled: true # 启用健康检查,注意:需要引用spring boot actuator

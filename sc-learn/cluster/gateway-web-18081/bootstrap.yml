@@ -1,0 +1,25 @@
+server:
+  port: 18081
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: gateway-web
+  cloud:
+    config:
+      fail-fast: true
+      discovery:
+        service-id: config-server
+        enabled: true
+      profile: ${spring.profiles.active}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://root:root@www.eureka-12000.com:12000/eureka/,http://root:root@www.eureka-12001.com:12001/eureka/
+  instance:
+    instance-id: gateway-web:18081
+    prefer-ip-address: true # 优先注册IP地址而不是hostname
+  healthcheck:
+    enabled: true # 启用健康检查,注意:需要引用spring boot actuator

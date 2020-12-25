@@ -1,0 +1,25 @@
+server:
+  port: 12011
+
+spring:
+  profiles:
+    active: dev
+  application:
+    name: auth-server
+  cloud:
+    config:
+      fail-fast: true
+      discovery:
+        service-id: config-server
+        enabled: true
+      profile: ${spring.profiles.active}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://root:root@www.eureka-12000.com:12000/eureka/,http://root:root@www.eureka-12001.com:12001/eureka/
+  instance:
+    instance-id: server-auth:12011
+    prefer-ip-address: true # 优先注册IP地址而不是hostname
+  healthcheck:
+    enabled: true # 启用健康检查,注意:需要引用spring boot actuator

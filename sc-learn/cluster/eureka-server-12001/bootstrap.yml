@@ -1,0 +1,33 @@
+# 端口
+server:
+  port: 12001
+
+# 默认情况该服务注册中心也会将自己作为客户端来尝试注册它自己，我们一般禁用它自身的注册
+eureka:
+  instance:
+    hostname: www.eureka-12001.com
+    # 租期更新时间间隔（默认30秒）
+    lease-renewal-interval-in-seconds: 10
+    # 租期到期时间（默认90秒）
+    lease-expiration-duration-in-seconds: 30
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    # 开启健康检查（需要spring-boot-starter-actuator依赖）
+    healthcheck:
+      enabled: true
+    serviceUrl:
+      defaultZone: http://root:root@www.eureka-12000.com:12000/eureka/
+  server:
+    # 关闭自我保护模式（缺省为打开）
+    enable-self-preservation: false
+    # 续期时间，即扫描失效服务的间隔时间（缺省为 60*1000ms）
+    eviction-interval-timer-in-ms: 1000
+
+spring:
+  security:
+    basic:
+      enabled: true
+    user:
+      name: root
+      password: root
